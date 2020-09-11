@@ -1,7 +1,7 @@
 const axios = require('axios')
 const { Types } = require('mongoose')
 const jwt = require('jsonwebtoken')
-const { SECRET_KEY } = require('dotenv').config()
+require('dotenv').config()
 
 module.exports = async (req, res) => {
   const access_token = req.body.googleUser.wc.access_token
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
   axios.get(getUrl).then(async response => {
     const user = await db.Users.findOne({googleID: response.data.id})
     if (user) {
-      const token = await jwt.sign({_id: user._id}, SECRET_KEY)
+      const token = await jwt.sign({_id: user._id}, process.env.SECRET_KEY)
       return res.send({ user, token, msg: "Авторизация успешна" })
     }
     const newUser = new db.Users({
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     })
     
     newUser.save().then(async resultat => {
-      const token = await jwt.sign({_id: newUser._id}, SECRET_KEY)
+      const token = await jwt.sign({_id: newUser._id}, process.env.SECRET_KEY)
       res.send({user: resultat, token, msg: "Пользователь успешно добавлен"})
     }).catch(error => {
       res.status(500).send({
@@ -32,5 +32,8 @@ module.exports = async (req, res) => {
         error
       })
     })
-  }).catch(error => res.status(500).send(error))
+  }).catch(error => {
+    console.error(error)
+    res.status(500).send({msg: 'Не удалось загрузить'})
+  })
 }
