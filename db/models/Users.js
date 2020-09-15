@@ -8,5 +8,6 @@ module.exports = (mongoose, conn) =>
     picture: String,
     locale: String,
     verified_email: Boolean,
-    date: { type: Date, default: Date.now },
+    images: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Images'}],
+    date: { type: Date, default: Date.now }
   }))
