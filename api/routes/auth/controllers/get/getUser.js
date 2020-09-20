@@ -1,3 +1,4 @@
 module.exports = async (req, res) => {
-  res.send({user: req.user, msg: "Авторизация успешна"})
+  const user = await db.Users.findOne({_id: req.user._id}).populate(['galleries'])
+  res.send({user: user, msg: "Авторизация успешна"})
 }
