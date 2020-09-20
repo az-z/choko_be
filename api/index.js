@@ -5,3 +5,4 @@ express.get('/', (req, res) => {
 })
 
 express.use('/api/auth/', routes.auth)
+express.use('/api/gallery', routes.gallery)

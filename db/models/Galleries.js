@@ -5,5 +5,8 @@ module.exports = (mongoose, conn) =>
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
     images: [{ type:  mongoose.Schema.Types.ObjectId, ref: 'Images'}],
     description: String,
+    folderId: String,
+    price: Number,
+    activity: Boolean,
     date: { type: Date, default: Date.now }
   }))

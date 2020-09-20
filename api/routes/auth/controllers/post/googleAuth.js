@@ -10,7 +10,12 @@ module.exports = async (req, res) => {
     const user = await db.Users.findOne({googleID: response.data.id})
     if (user) {
       const token = await jwt.sign({_id: user._id}, process.env.SECRET_KEY)
-      return res.send({ user, token, msg: "Авторизация успешна" })
+      user.access_token = access_token
+      return user.save().then(response => {
+        res.send({ user, token, msg: "Авторизация успешна" })
+      }).catch(error => {
+        res.status(500).send({ msg: 'Не удалось сохранить', error })
+      })
     }
     const newUser = new db.Users({
       _id: new Types.ObjectId(),
@@ -22,9 +27,8 @@ module.exports = async (req, res) => {
       locale: response.data.locale,
       verified_email: response.data.verified_email
     })
-    
     newUser.save().then(async resultat => {
-      const token = await jwt.sign({_id: newUser._id}, process.env.SECRET_KEY)
+      const token = await jwt.sign({_id: newUser._id}, process.env.SECRET_KEY, { expiresIn: '10h' })
       res.send({user: resultat, token, msg: "Пользователь успешно добавлен"})
     }).catch(error => {
       res.status(500).send({
