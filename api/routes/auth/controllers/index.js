@@ -1,4 +1,5 @@
 module.exports = {
   googleAuth: require('./post/googleAuth'),
-  getUser: require('./get/getUser')
+  getUser: require('./get/getUser'),
+  getPublicUser: require('./get/getPublicUSer')
 }
