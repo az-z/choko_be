@@ -1,7 +1,7 @@
-const routes = require('./Routes')
+const routes = require('./routes')
 
 express.get('/', (req, res) => {
-  res.sendFile(__dirname + '/View/index.html')
+  res.sendFile(__dirname + '/views/index.html')
 })
 
 express.use('/auth', routes.auth)

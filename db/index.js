@@ -17,5 +17,6 @@ module.exports = () => {
     Users: require('./models/Users')(mongoose, connection),
     Galleries: require('./models/Galleries')(mongoose, connection),
     Images: require('./models/Images')(mongoose, connection),
+    Orders:require('./models/Orders')(mongoose, connection)
   }
 }
