@@ -1,17 +1,17 @@
-const axios = require('axios')
+// const axios = require('axios')
 const { Types } = require('mongoose')
 module.exports = async ( req, res ) => {
-  if (!req.body.folder) return ''
+  // if (!req.body.folder) return ''
   const { title, description, folder, price, activity } = req.body
-  const folderId = folder ? folder.split('/').pop() : ''
-  const url = `https://content.googleapis.com/drive/v3/files?key=${folderId}`
-  const headers = { Authorization: `Bearer ${req.user.access_token}`}
-  return axios.get(url, {headers}).then(response => {
-    res.send({ response })
-  }).catch(error => {
-    console.error(error);
-    res.status(500).send({ error })
-  })
+  // const folderId = folder ? folder.split('/').pop() : ''
+  // const url = `https://content.googleapis.com/drive/v3/files?key=${folderId}`
+  // const headers = { Authorization: `Bearer ${req.user.access_token}`}
+  // return axios.get(url, {headers}).then(response => {
+  //   res.send({ response })
+  // }).catch(error => {
+  //   console.error(error);
+  //   res.status(500).send({ error })
+  // })
   const gallery = await new db.Galleries({
     _id: Types.ObjectId(),
     title,
