@@ -1,8 +1,9 @@
-const routes = require('./routes')
+const routes = require('./Routes')
 
 express.get('/', (req, res) => {
-  res.sendFile(__dirname + '/view/index.html')
+  res.sendFile(__dirname + '/View/index.html')
 })
 
-express.use('/api/auth/', routes.auth)
-express.use('/api/gallery', routes.gallery)
+express.use('/auth', routes.auth)
+express.use('/gallery', routes.gallery)
+express.use('/order', routes.order)

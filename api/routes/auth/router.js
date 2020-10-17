@@ -5,5 +5,7 @@ router
   .get('/verify', middleware.verify.default, controllers.getUser)
   .get('/get-public-user/:id', controllers.getPublicUser)
   .put('/user/change', middleware.verify.default, controllers.changeUser)
+  .post('/admin/signin', controllers.authAdmin)
+  .get('/admin/verify', middleware.verify.admin, controllers.verifyAdmin)
     
 module.exports = router

@@ -1,6 +1,4 @@
 const app = require('express')();
-// const http = require('http').createServer(app);
-// const io = require('socket.io')(http);
 const db = require('./db')()
 const cors = require('cors')
 const  { json, static, Router } = require('express')
@@ -9,7 +7,6 @@ require('dotenv').config()
 global.db = db
 global.router = Router()
 global.express = app
-// global.io = io
 global.middleware = require('./middlewares')
 
 app.use(static('uploads'))
@@ -21,7 +18,7 @@ app.use(cors({
   optionsSuccessStatus: 200
 }))
 
-require('./api')
+require('./Api')
 
 //==== Listen Requests =====
 app.listen(process.env.SERVER_PORT, () => console.log(`Server has been running in ${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`))

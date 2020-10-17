@@ -4,8 +4,11 @@ connection.model('Images', new mongoose.Schema({
   name: String,
   path: String,
   size: Number,
-  uploader: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
-  gallery: {type: mongoose.Schema.Types.ObjectId, ref: 'Galleries'},
-  original: String,
-  date: {type: Date, default: Date.now}
+  uploader: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  gallery: { type: mongoose.Schema.Types.ObjectId, ref: 'Galleries' },
+  path: {
+    original: String,
+    mini: String
+  },
+  date: { type: Date, default: Date.now }
 }))

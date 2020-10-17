@@ -1,4 +1,5 @@
 module.exports = {
-  auth: require('./auth/router'),
-  gallery: require('./gallery/router')
+  auth: require('./Auth/router'),
+  gallery: require('./Gallery/router'),
+  order: require('./order/router')
 }
