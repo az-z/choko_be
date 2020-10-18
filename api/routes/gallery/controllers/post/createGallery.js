@@ -2,7 +2,7 @@
 const { Types } = require('mongoose')
 module.exports = async ( req, res ) => {
   // if (!req.body.folder) return ''
-  const { title, description, folder, price, activity } = req.body
+  const { title, description, folder, price, activity, images } = req.body
   // const folderId = folder ? folder.split('/').pop() : ''
   // const url = `https://content.googleapis.com/drive/v3/files?key=${folderId}`
   // const headers = { Authorization: `Bearer ${req.user.access_token}`}
@@ -18,7 +18,8 @@ module.exports = async ( req, res ) => {
     creator: req.user._id,
     description,
     price,
-    activity
+    activity,
+    images
   }) 
   req.user.galleries.push(gallery._id)
   req.user.save()

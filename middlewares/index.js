@@ -4,5 +4,6 @@ module.exports = {
     superAdmin: require('./verifySuperAdmin'),
     admin: require('./verifyAdmin')
   },
-  multer: require('./multer')
+  multer: require('./multer'),
+  resizeImages: require('./resizeImage')
 }

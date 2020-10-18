@@ -1,10 +1,14 @@
 const controllers = require('./controllers')
 
 router
-  .post('/add', middleware.verify.default, controllers.createGallery)
+  .get('/get/public/:id', controllers.getPublicGallery)
+  .use(middleware.verify.default)
   .get('/get/:id', controllers.getOneGallery)
-  .get('/get/user/galleries', middleware.verify.default, controllers.getAllGalleries)
-  .put('/change/:id', middleware.verify.default, controllers.changeGallery)
-  .delete('/delete/:id', middleware.verify.default, controllers.deleteGallery)
+  .post('/add', controllers.createGallery)
+  .get('/get/user/galleries', controllers.getAllGalleries)
+  .put('/change/:id', controllers.changeGallery)
+  .delete('/delete/:id', controllers.deleteGallery)
+  .post('/add-images', middleware.multer.array('images', 20), controllers.createImages)
+  .delete('/remove/file/:gallary/:id', controllers.removeOneFile) 
 
 module.exports = router
