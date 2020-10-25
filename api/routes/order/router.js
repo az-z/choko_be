@@ -3,6 +3,7 @@ const controllers = require('./controllers')
 router
   .get('/get-one/:id', controllers.getOneOrder)
   .get('/get-all', controllers.getAllOrders)
-  .post('/add', middleware.verify.default, controllers.addOrder)
+  .get('/get-user-orders',middleware.verify.default, controllers.userOrders)
+  .post('/create', controllers.addOrder)
 
 module.exports = router

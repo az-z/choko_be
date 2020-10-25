@@ -11,6 +11,7 @@ module.exports = (mongoose, conn) =>
     verified_email: Boolean,
     images: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Images'}],
     galleries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Galleries' }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
     date: { type: Date, default: Date.now },
     site: String,
     facebook: String,

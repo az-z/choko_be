@@ -19,7 +19,7 @@ module.exports = async ( req, res ) => {
     description,
     price,
     activity,
-    images
+    images,
   }) 
   req.user.galleries.push(gallery._id)
   req.user.save()
