@@ -20,5 +20,11 @@ module.exports = (mongoose, connection) =>
     status: {
       type: Boolean,
       default: false
-    }
+    },
+    email: String,
+    phone: String,
+    name: String,
+    lastname: String,
+    summ: Number,
+    price: Number
   }))
