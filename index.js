@@ -18,7 +18,7 @@ app
   .use(static('static'))
   .use(json())
   .use(cors({
-    origin: '*',
+    origin: ['*', 'http://sitelife.pp.ua'],
     optionsSuccessStatus: 200
   }))
   .use(timeout('60s'))
