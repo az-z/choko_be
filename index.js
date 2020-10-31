@@ -14,11 +14,7 @@ global.mailer = mailer
 app.use(static('uploads'))
 app.use(static('static'))
 app.use(json())
-app.use(cors({
-  credentials: true,
-  origin: true,
-  optionsSuccessStatus: 200
-}))
+app.use(cors())
 
 require('./api')
 
