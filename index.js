@@ -12,7 +12,9 @@ global.express = app
 global.middleware = require('./middlewares')
 global.mailer = mailer
 
-app.use(static('uploads'))
+app
+  .options('*', cors())
+  .use(static('uploads'))
   .use(static('static'))
   .use(json())
   .use(cors({
