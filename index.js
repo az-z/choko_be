@@ -13,11 +13,11 @@ global.middleware = require('./middlewares')
 global.mailer = mailer
 
 app.use(static('uploads'))
-app.use(static('static'))
-app.use(json())
-app.use(cors())
-app.options('*', cors())
-app.use(timeout('60s'))
+  .use(static('static'))
+  .use(json())
+  .use(cors())
+  .options('*', cors())
+  .use(timeout('60s'))
 
 require('./api')
 
