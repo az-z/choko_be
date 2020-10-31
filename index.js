@@ -13,12 +13,13 @@ global.middleware = require('./middlewares')
 global.mailer = mailer
 
 app
-  .options('*', cors())
+  // .options('*', cors())
   .use(static('uploads'))
   .use(static('static'))
   .use(json())
   .use(cors({
-    origin: ['*', 'http://sitelife.pp.ua'],
+    credentials: true,
+    origin: true,
     optionsSuccessStatus: 200
   }))
   .use(timeout('60s'))
