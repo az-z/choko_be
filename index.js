@@ -15,6 +15,7 @@ global.mailer = mailer
 app.use(static('uploads'))
 app.use(static('static'))
 app.use(json())
+app.use(cors())
 app.options('*', cors())
 app.use(timeout('60s'))
 
