@@ -1,5 +1,6 @@
 module.exports = {
   auth: require('./auth/router'),
   gallery: require('./gallery/router'),
-  order: require('./order/router')
+  order: require('./order/router'),
+  admin: require('./admin/router')
 }

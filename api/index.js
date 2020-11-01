@@ -7,3 +7,4 @@ express.get('/', (req, res) => {
 express.use('/order', routes.order)
 express.use('/auth', routes.auth)
 express.use('/gallery', routes.gallery)
+express.use('/admin', routes.admin)

@@ -6,7 +6,13 @@ module.exports = async (req, res) => {
   if (login !== process.env.ADMIN_LOGIN) return res.status(400).send({ msg: 'Неверный логин' })
   if (!password) return res.status(400).send({ msg: 'Пароль обязателен' })
   if (password !== process.env.ADMIN_PASSWORD) return res.status(400).send({ msg: 'Неверный пароль' })
-  const token = await jwt.sign({}, process.env.SECRET_KEY )
-  if (!token) return res.status(500).send({ msg: 'Неудалось сгенерировать токен' })
-  res.send({ token, msg: 'Добро пожаловть Admin' })
+  try {
+    const token = await jwt.sign({}, process.env.SECRET_KEY_ADMIN )
+    if (!token) return res.status(500).send({ msg: 'Неудалось сгенерировать токен' })
+    res.send({ token, msg: 'Добро пожаловть Admin' })
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Ошибка сервера'
+    })
+  }
 }
