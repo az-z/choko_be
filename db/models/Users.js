@@ -3,6 +3,7 @@ module.exports = (mongoose, conn) =>
     _id: { type: mongoose.Schema.Types.ObjectId },
     name: String,
     email: String,
+    login: String,
     password: String,
     googleID: String,
     access_token: String,
@@ -15,6 +16,7 @@ module.exports = (mongoose, conn) =>
     date: { type: Date, default: Date.now },
     site: String,
     facebook: String,
+    instagram: String,
     description: String,
     phoneNumber: String,
     active: new mongoose.Schema({
