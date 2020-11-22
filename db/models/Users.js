@@ -21,6 +21,7 @@ module.exports = (mongoose, conn) =>
     phoneNumber: String,
     active: new mongoose.Schema({
       status: { type: Boolean, default: false },
+      trial: { type: Boolean, default: false },
       to: { type: Date, default: Date.now }
     }),
     mode: { type: Number, default: 0 }, // 0: USER, 1: ADMIN

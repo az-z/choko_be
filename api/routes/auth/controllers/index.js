@@ -4,5 +4,6 @@ module.exports = {
   getPublicUser: require('./get/getPublicUser'),
   changeUser: require('./put/changeUser'),
   authAdmin: require('./post/authAdmin'),
-  verifyAdmin: require('./get/verifyAdmin')
+  verifyAdmin: require('./get/verifyAdmin'),
+  checkLogin: require('./get/checklogin')
 }
