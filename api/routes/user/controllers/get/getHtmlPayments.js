@@ -15,7 +15,8 @@ module.exports = async (req, res) => {
       'currency'       : 'UAH',
       'description'    : 'month',
       'order_id'       : payment._id,
-      'version'        : '3'
+      'version'        : '3',
+      'result_url'     : process.env.FULL_PATH + '/profile'
     })
     var second = await liqpay.cnb_form({
       'action'         : 'pay',
