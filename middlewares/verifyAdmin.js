@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
     if (!payload) return res.status(401).send({ msg: "Неверный токен", token, payload })
     next()
   } catch (error) {
-    res.ststus(401).json({
+    res.status(401).json({
       msg: "Чтото пошло не-так"
     })
   }

@@ -1,8 +1,8 @@
 const controllers = require('./controllers')
 
 router
-  .use(middleware.verify.admin)
-  .get('/users/get/all', controllers.getAllUsers)
-  .get('/authwithuser/:id', controllers.getAuthWithUser)
+  .get('/users/get/all',middleware.verify.admin, controllers.getAllUsers)
+  .get('/authwithuser/:id', middleware.verify.admin, controllers.getAuthWithUser)
+  .put('/user/change/status/:id', middleware.verify.admin, controllers.changeUserStatus)
     
 module.exports = router

@@ -9,14 +9,15 @@ module.exports = async (req, res) => {
   const { take, skip, period } = req.query
   let currPeriod = null
   if (period === 'month') currPeriod = `${year},${month}`
-  else if (period === 'week') currPeriod = `${year},${month}`
+  else if (period === 'week') currPeriod = `${year},${month},${day - 6}`
   else if (period === 'day') currPeriod = `${year},${month},${day}`
   else if (period === 'year') currPeriod = `${year}`
   else currPeriod = ''
-  const mathc = {
+  console.log(currPeriod, new Date(currPeriod))
+  const match = {
     date: {
       $lt: new Date(),
-      $gt: new Date(currPeriod)
+      $gte: new Date(currPeriod)
     }
   }
   try {
@@ -24,8 +25,12 @@ module.exports = async (req, res) => {
     .limit(take).skip(skip).populate([
       {
         path: 'galleries',
-        mathc,
-        select: '_id'
+        match,
+        select: '_id date'
+      },
+      {
+        path: 'orders',
+        select: '_id status summ'
       }
     ])
     if(!users) return res.status(404).json({ msg: "Пользователи ненайдены" })

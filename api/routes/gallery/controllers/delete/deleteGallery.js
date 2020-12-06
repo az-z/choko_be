@@ -4,12 +4,12 @@ module.exports = async (req, res) => {
   try {
     const gallery = await db.Galleries.findOne({ _id: req.params.id, creator: user._id })
       .populate(['images'])
-    gallery.images.forEach(async element => {
+    if (gallery.images) gallery.images.forEach(async element => {
       unlink(`uploads/${element.name}`, error => console.error(error))
       unlink(`uploads/small_${element.name}`, error => console.error(error))
       // console.log(user.images, element._id);
       user.images = user.images.filter(elem => {
-        console.log(elem, element._id, elem != element._id, typeof(elem), typeof(element._id))
+        // console.log(elem, element._id, elem != element._id, typeof(elem), typeof(element._id))
         if (String(elem) != String(element._id)) return elem
       })
       // console.log(user.images)

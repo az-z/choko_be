@@ -1,15 +1,16 @@
 const nodemailer = require('nodemailer')
+require('dotenv').config()
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp-pulse.com',
-  port: 465,
+  host: 'smtp.gmail.com',
+  port: 587,
   secure: true,
   auth: {
-      user: 'nevvimore@gmail.com',
-      pass: 'CsosfbtZPkGjF'
+    user: process.env.MAIL_LOGIN,
+    pass: process.env.MAIL_PASSWORD
   }
 }, {
-  from: 'Photoservice <nevvord@sitelife.pp.ua>',
+  from: 'Photoservice <info@keytophoto.com>',
 })
 
 const mailer = function (msg, html) {

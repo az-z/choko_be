@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
         picture: response.data.picture,
         locale: response.data.locale,
         verified_email: response.data.verified_email,
+        login: response.data.email.split('@')[0],
         active: {
           status: true,
           trial: true,
