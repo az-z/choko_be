@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
       'description'    : 'month',
       'order_id'       : payment._id,
       'version'        : '3',
-      'result_url'     : process.env.FULL_PATH + '/profile'
+      'result_url'     : process.env.SITE + '/profile',
+      'server_url'     : process.env.FULL_PATH + '/user/responseliqpay'
     })
     var second = await liqpay.cnb_form({
       'action'         : 'pay',
@@ -24,7 +25,9 @@ module.exports = async (req, res) => {
       'currency'       : 'UAH',
       'description'    : 'year',
       'order_id'       : payment._id,
-      'version'        : '3'
+      'version'        : '3',
+      'result_url'     : process.env.SITE + '/profile',
+      'server_url'     : process.env.FULL_PATH + '/user/responseliqpay'
     })
     res.send({ first, second })
   } catch (error) {
