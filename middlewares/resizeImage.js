@@ -21,8 +21,8 @@ module.exports = async (req, res, next) => {
     },
     {
       path: "large",
-      width: 800,
-      height: 950,
+      width: 768,
+      height: 512,
     },
     {
       path: "medium",

@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
     const newImage = new db.Images({
       _id: new Types.ObjectId(),
       name: image.filename,
+      originalName: image.originalname,
       path: {
         original: `${process.env.FULL_PATH}/${image.filename}`
       },
@@ -20,8 +21,8 @@ module.exports = async (req, res) => {
         newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
         const watermark = await Jimp.read('static/watermark.png')
         return img
-          .resize(250, 250) // resize
-          .quality(60) // set JPEG quality
+          .resize(768, 512) // resize
+          .quality(100) // set JPEG quality
           .composite(watermark, 0, 0, [{
             mode: Jimp.BLEND_SCREEN,
             opacitySource: 1,

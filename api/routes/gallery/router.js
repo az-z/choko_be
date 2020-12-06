@@ -7,7 +7,7 @@ router
   .get('/get/user/galleries', middleware.verify.default, controllers.getAllGalleries)
   .put('/change/:id', middleware.verify.default, controllers.changeGallery)
   .delete('/delete/:id', middleware.verify.default, controllers.deleteGallery)
-  .post('/add-images', middleware.verify.default, middleware.multer.array('images', 200), controllers.createImages)
+  .post('/add-images', middleware.verify.default, middleware.multer.array('images', 200000), controllers.createImages)
   .delete('/remove/file/:gallery/:id', middleware.verify.default, controllers.removeOneFile) 
 
 module.exports = router

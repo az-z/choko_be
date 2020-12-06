@@ -2,6 +2,7 @@ module.exports = (mongoose, connection) =>
   connection.model('Images', new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
+    originalName: String,
     path: String,
     size: Number,
     uploader: {
