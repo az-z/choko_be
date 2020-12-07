@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     const user = await db.Users.findOne({ _id: payment.user })
     if ( data.description === 'month' ) {
       const date = new Date()
-      user.active.to = new Date(date.setMonth(date.getMonth()+8))
+      user.active.to = new Date(date.setMonth(date.getMonth()+1))
       user.active.status = true
       payment.status = true
       console.log('user :', user);
