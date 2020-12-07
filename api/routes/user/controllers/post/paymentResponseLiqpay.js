@@ -11,14 +11,16 @@ module.exports = async (req, res) => {
       user.active.to = new Date(date.setMonth(date.getMonth()+8))
       user.active.status = true
       payment.status = true
+      console.log('user :', user);
       const paymentSave = payment.save()
       const saveUser = await user.save()
     }
-    if ( payment.description === 'month' ) {
+    if ( payment.description === 'year' ) {
       payment.status = true
       const date = new Date()
       user.active.status = true
       user.active.to = date.setFullYear(date.getFullYear() + 1)
+      console.log('user :', user);
       const paymentSave = payment.save()
       const saveUser = await user.save()
     }
