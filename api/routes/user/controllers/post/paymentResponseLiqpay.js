@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     const user = await db.Users.findOne({ _id: payment.user })
     if ( data.description === 'month' ) {
       const date = new Date()
-      user.active.to = user.active.to < date ? new Date(date.setMonth(date.getMonth()+1)) : user.active.to + new Date(date.setMonth(date.getMonth()+1))
+      user.active.to = new Date(user.active.to) < date ? new Date(date.setMonth(date.getMonth()+1)) : user.active.to + new Date(date.setMonth(date.getMonth()+1))
       user.active.status = true
       payment.status = true
       // console.log('user :', user);
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
       const date = new Date()
       user.active.status = true
       user.active.to = date.setFullYear(date.getFullYear() + 1)
-      user.active.to = user.active.to < date ? new Date(date.setFullYear(date.getFullYear() + 1)) : user.active.to + new Date(date.setFullYear(date.getFullYear() + 1))
+      user.active.to = new Date(user.active.to) < date ? new Date(date.setFullYear(date.getFullYear() + 1)) : user.active.to + new Date(date.setFullYear(date.getFullYear() + 1))
       
       // console.log('user :', user);
       const paymentSave = payment.save()
