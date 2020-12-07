@@ -3,6 +3,7 @@ module.exports = async (req, res) => {
   try {
     const data = base64decode(req.body.data)
     const payment = await db.Payments.findOne({ _id: data.order_id })
+    console.log(payment)
     const user = await db.Users.findOne({ _id: payment.user })
     if ( payment.description === 'month' ) {
       user.active.status = active
