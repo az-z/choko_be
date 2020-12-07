@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     const liqpay = new LiqPay(process.env.LIQPAY_PUBLIC, process.env.LIQPAY_PRIVAT)
     var first = await liqpay.cnb_form({
       'action'         : 'pay',
-      'amount'         : '1',
+      'amount'         : '990',
       'currency'       : 'UAH',
       'description'    : 'month',
       'order_id'       : payment._id,
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     })
     var second = await liqpay.cnb_form({
       'action'         : 'pay',
-      'amount'         : '2',
+      'amount'         : '9700',
       'currency'       : 'UAH',
       'description'    : 'year',
       'order_id'       : payment._id,
