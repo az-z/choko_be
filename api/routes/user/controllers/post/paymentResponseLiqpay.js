@@ -1,8 +1,7 @@
-const { encodeBase64 } = require("bcryptjs")
-
+const { base64encode, base64decode } = require('nodejs-base64');
 module.exports = async (req, res) => {
   try {
-    const buff = new Buffer(req.body.data, 'base64')
+    const buff = base64decode(req.body.data)
     console.log("BODY: ", buff)
     console.log("HEADER: ", req.headers)
     console.log("QUERY: ", req.query)
