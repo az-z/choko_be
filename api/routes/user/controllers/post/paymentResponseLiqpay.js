@@ -7,15 +7,19 @@ module.exports = async (req, res) => {
     console.log(payment)
     const user = await db.Users.findOne({ _id: payment.user })
     if ( payment.description === 'month' ) {
-      user.active.status = active
       const date = new Date()
       user.active.to = new Date(date.setMonth(date.getMonth()+8))
+      user.active.status = true
+      payment.status = true
+      const paymentSave = payment.save()
       const saveUser = await user.save()
     }
     if ( payment.description === 'month' ) {
-      user.active.status = active
+      payment.status = true
       const date = new Date()
+      user.active.status = true
       user.active.to = date.setFullYear(date.getFullYear() + 1)
+      const paymentSave = payment.save()
       const saveUser = await user.save()
     }
     res.send({ msg: 'Усешно' })
