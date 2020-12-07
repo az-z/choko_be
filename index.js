@@ -1,7 +1,8 @@
 const app = require('express')();
 const db = require('./db')()
 const cors = require('cors')
-const  { json, static, Router } = require('express')
+const bodyParser = require('body-parser')
+const  { static, Router } = require('express')
 const mailer = require('./plugins/nodemailer')
 const timeout = require('connect-timeout')
 require('dotenv').config()
@@ -13,10 +14,11 @@ global.middleware = require('./middlewares')
 global.mailer = mailer
 
 app
-  // .options('*', cors())
+// .options('*', cors())
+  .use(bodyParser.json()) // support json encoded bodies
+  .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
   .use(static('uploads'))
   .use(static('static'))
-  .use(json())
   .use(cors({
     credentials: true,
     origin: true,

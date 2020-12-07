@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   if (!images) return res.status(400).send({ msg: 'Список изображений отсутствует' })
   if (!gallery) return res.status(400).send({ msg: 'Галерея отсутствует' })
   if (!user) return res.status(400).send({ msg: 'Пользователь отсутствует' })
-  if (!name) return res.status(400).send({ msg: 'Имя обязательно' })
+  // if (!name) return res.status(400).send({ msg: 'Имя обязательно' })
   if (!email) return res.status(400).send({ msg: 'E-mail обязателен' })
   const currUser = await db.Users.findOne({ _id: user })
   const order = new db.Orders({
