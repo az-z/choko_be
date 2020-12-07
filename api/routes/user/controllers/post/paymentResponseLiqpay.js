@@ -1,13 +1,24 @@
-const { base64encode, base64decode } = require('nodejs-base64');
+const { base64decode } = require('nodejs-base64');
 module.exports = async (req, res) => {
   try {
-    const buff = base64decode(req.body.data)
-    console.log("BODY: ", buff)
-    console.log("HEADER: ", req.headers)
-    console.log("QUERY: ", req.query)
-    console.log("order_id: ", req.order_id)
-    console.log("DATA: ", req.data)
+    const data = base64decode(req.body.data)
+    const payment = await db.Payments.findOne({ _id: data.order_id })
+    const user = await db.User.findOne({ _id: payment.user })
+    if ( payment.description === 'month' ) {
+      user.active.status = active
+      const date = new Date()
+      user.active.to = new Date(date.setMonth(date.getMonth()+8))
+      const saveUser = await user.save()
+    }
+    if ( payment.description === 'month' ) {
+      user.active.status = active
+      const date = new Date()
+      user.active.to = date.setFullYear(date.getFullYear() + 1)
+      const saveUser = await user.save()
+    }
+    res.send({ msg: 'Усешно' })
   } catch (error) {
+    res.status(500).send({ msg: 'Ошибка сервера' })
     console.error(error)
   }
 }
