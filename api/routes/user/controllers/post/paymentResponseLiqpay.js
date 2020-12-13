@@ -1,4 +1,3 @@
-const { json } = require('body-parser');
 const { base64decode } = require('nodejs-base64');
 module.exports = async (req, res) => {
   try {
@@ -10,7 +9,7 @@ module.exports = async (req, res) => {
     if ( data.description === 'month' ) {
       const date = new Date()
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
-      user.active.to = currUserDate < date ? dateMonth : new Date(currUserDate.setMonth(date.getMonth()+1))
+      user.active.to = currUserDate < date ? dateMonth : new Date(currUserDate.setMonth(currUserDate.getMonth()+1))
       user.active.status = true
       payment.status = true
       // console.log('user :', user);
