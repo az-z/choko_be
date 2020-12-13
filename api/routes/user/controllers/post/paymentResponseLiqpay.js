@@ -21,8 +21,8 @@ module.exports = async (req, res) => {
     }
     if ( data.description === 'year' && payment.status === false ) {
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
-      user.active.to = currUserDate > date ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear
-      console.log('Year + 1: ', currUserDate > date ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear, '|', new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)))
+      user.active.to = currUserDate.getFullYear() > date.getFullYear() ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear
+      // console.log('Year + 1: ', currUserDate > date ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear, '|', new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)))
       user.active.trial = false
       user.active.status = true
       payment.status = true
