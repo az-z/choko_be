@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
     const user = await db.Users.findOne({ _id: payment.user })
     console.log(user);
     const currUserDate = new Date(user.active.to)
+    console.log('CurrUserDate: ', currUserDate);
     const date = new Date()
     if ( data.description === 'month' && payment.status === false ) {
       // console.log('New date: ', currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth);
