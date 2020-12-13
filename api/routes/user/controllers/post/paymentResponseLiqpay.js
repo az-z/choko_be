@@ -10,16 +10,18 @@ module.exports = async (req, res) => {
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
       user.active.to = currUserDate < date ? dateMonth : new Date(currUserDate.setMonth(currUserDate.getMonth() + 1))
       user.active.status = true
+      user.active.trial = false
       payment.status = true
-      const paymentSave = payment.save()
+      const paymentSave = await payment.save()
       const saveUser = await user.save()
     }
     if ( data.description === 'year' ) {
-      payment.status = true
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
-      user.active.status = true
       user.active.to = currUserDate < date ? dateYear : new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1))
-      const paymentSave = payment.save()
+      user.active.trial = false
+      user.active.status = true
+      payment.status = true
+      const paymentSave = await payment.save()
       const saveUser = await user.save()
     }
     res.send({ msg: 'Усешно' })
