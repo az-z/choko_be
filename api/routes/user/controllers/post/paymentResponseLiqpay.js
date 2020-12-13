@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     const currUserDate = new Date(user.active.to)
     const date = new Date()
     if ( data.description === 'month' ) {
+      console.log('New date: ', currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth);
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
       user.active.to = currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth
       user.active.status = true
