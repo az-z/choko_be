@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
       payment.status = true
       const paymentSave = await payment.save()
       const saveUser = await user.save()
+      console.log("Saved month");
     }
     if ( data.description === 'year' ) {
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
@@ -23,6 +24,7 @@ module.exports = async (req, res) => {
       payment.status = true
       const paymentSave = await payment.save()
       const saveUser = await user.save()
+      console.log("Saved year");
     }
     res.send({ msg: 'Усешно' })
   } catch (error) {
