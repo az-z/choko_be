@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
     const data = JSON.parse(base64decode(req.body.data))
     const payment = await db.Payments.findOne({ _id: data.order_id })
     const user = await db.Users.findOne({ _id: payment.user })
-    console.log(user);
+    console.log('USER: ', user.active.date);
     const currUserDate = new Date(user.active.to)
     console.log('CurrUserDate: ', currUserDate);
     const date = new Date()
@@ -21,13 +21,14 @@ module.exports = async (req, res) => {
     }
     if ( data.description === 'year' && payment.status === false ) {
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
-      user.active.to = currUserDate > date ? new Date(currUserDate.setFullYear(Number(currUserDate.getFullYear()) + 1)) : dateYear
+      user.active.to = currUserDate > date ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear
+      console.log('Year + 1: ', currUserDate > date ? new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1)) : dateYear)
       user.active.trial = false
       user.active.status = true
       payment.status = true
       const paymentSave = await payment.save()
       const saveUser = await user.save()
-      console.log("Saved year", saveUser);
+      console.log("Saved year", saveUser.active.date);
     }
     console.log('111111111111111');
     res.send({ msg: 'Усешно' })
