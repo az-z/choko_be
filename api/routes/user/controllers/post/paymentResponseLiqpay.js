@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
       const date = new Date()
       user.active.status = true
       user.active.to = date.setFullYear(date.getFullYear() + 1)
-      user.active.to = new Date(user.active.to) < date ? new Date(date.setFullYear(date.getFullYear() + 1)) : user.active.to + new Date(date.setFullYear(date.getFullYear() + 1))
+      user.active.to = new Date(user.active.to) < date ? new Date(date.setFullYear(date.getFullYear() + 1)) : new Date(user.active.to) + new Date(date.setFullYear(date.getFullYear() + 1))
       
       // console.log('user :', user);
       const paymentSave = payment.save()
