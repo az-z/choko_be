@@ -4,8 +4,8 @@ module.exports = async (req, res) => {
     const data = JSON.parse(base64decode(req.body.data))
     const payment = await db.Payments.findOne({ _id: data.order_id })
     const user = await db.Users.findOne({ _id: payment.user })
-    const currUserDate = await new Date(user.active.to)
-    const date = await new Date()
+    const currUserDate = new Date(user.active.to)
+    const date = new Date()
     if ( data.description === 'month' ) {
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
       user.active.to = currUserDate <= date ? dateMonth : new Date(currUserDate.setMonth(currUserDate.getMonth() + 1))
