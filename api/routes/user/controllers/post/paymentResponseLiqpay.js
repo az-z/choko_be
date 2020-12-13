@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
       payment.status = true
       const paymentSave = await payment.save()
       const saveUser = await user.save()
-      console.log("Saved year");
+      console.log("Saved year", saveUser);
     }
     console.log('111111111111111');
     res.send({ msg: 'Усешно' })
