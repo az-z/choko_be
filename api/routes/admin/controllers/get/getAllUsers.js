@@ -1,25 +1,24 @@
 module.exports = async (req, res) => {
   const d = new Date(),
-    hour = d.getHours(),
-    min = d.getMinutes(),
     month = d.getMonth(),
     year = d.getFullYear(),
-    sec = d.getSeconds(),
     day = d.getDate();
+    const week = d.getDate() - 6;
   const { take, skip, period } = req.query
   let currPeriod = null
-  if (period === 'month') currPeriod = `${year},${month}`
-  else if (period === 'week') currPeriod = `${year},${month},${day - 6}`
-  else if (period === 'day') currPeriod = `${year},${month},${day}`
+  if (period === 'month') currPeriod = `${year}-${month}`
+  else if (period === 'week') currPeriod = `${year}-${month + 1}-${week}`
+  else if (period === 'day') currPeriod = `${year}-${month + 1}-${day}`
   else if (period === 'year') currPeriod = `${year}`
-  else currPeriod = ''
-  console.log(currPeriod, new Date(currPeriod))
+  else currPeriod = null
+  console.log(period, currPeriod, new Date(currPeriod))
   const match = {
     date: {
       $lt: new Date(),
       $gte: new Date(currPeriod)
     }
   }
+  console.log(match);
   try {
     const users = await db.Users.find({})
     .limit(take).skip(skip).populate([
@@ -30,6 +29,7 @@ module.exports = async (req, res) => {
       },
       {
         path: 'orders',
+        match,
         select: '_id status summ'
       }
     ])

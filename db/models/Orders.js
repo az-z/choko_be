@@ -1,7 +1,7 @@
 module.exports = (mongoose, connection) =>
   connection.model('Orders', new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    galery: {
+    gallery: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Galleries'
     },

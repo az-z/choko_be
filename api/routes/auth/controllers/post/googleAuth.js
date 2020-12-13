@@ -15,7 +15,6 @@ module.exports = async (req, res) => {
       const userSave = await user.save()
       res.send({ user: userSave, token, msg: "Авторизация успешна" })
     } else {
-      const date = new Date()
       const newUser = new db.Users({
         _id: new Types.ObjectId(),
         name: response.data.name,
@@ -29,7 +28,7 @@ module.exports = async (req, res) => {
         active: {
           status: true,
           trial: true,
-          to: new Date(date.setMonth(date.getMonth() + 1))
+          to: new Date(Date.now() + 12096e5)
         }
       })
       const newUserSave = await newUser.save()
