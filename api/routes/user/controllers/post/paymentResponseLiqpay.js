@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
     const data = JSON.parse(base64decode(req.body.data))
     const payment = await db.Payments.findOne({ _id: data.order_id })
     const user = await db.Users.findOne({ _id: payment.user })
-    console.log('USER: ', user.active.date);
+    console.log('USER: ', user.active.to);
     const currUserDate = new Date(user.active.to)
     console.log('CurrUserDate: ', currUserDate);
     const date = new Date()
