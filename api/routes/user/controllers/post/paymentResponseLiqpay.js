@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
       const saveUser = await user.save()
       console.log("Saved year");
     }
+    console.log('111111111111111');
     res.send({ msg: 'Усешно' })
   } catch (error) {
     res.status(500).send({ msg: 'Ошибка сервера' })
