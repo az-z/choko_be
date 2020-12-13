@@ -6,9 +6,11 @@ module.exports = async (req, res) => {
     const payment = await db.Payments.findOne({ _id: data.order_id })
     // console.log(payment)
     const user = await db.Users.findOne({ _id: payment.user })
+    const currUserDate = new Date(user.active.to)
     if ( data.description === 'month' ) {
       const date = new Date()
-      user.active.to = new Date(user.active.to) < date ? new Date(date.setMonth(date.getMonth()+1)) : new Date(user.active.to) + new Date(date.setMonth(date.getMonth()+1))
+      const dateMonth = new Date(date.setMonth(date.getMonth()+1))
+      user.active.to = currUserDate < date ? dateMonth : new Date(currUserDate.setMonth(date.getMonth()+1))
       user.active.status = true
       payment.status = true
       // console.log('user :', user);
