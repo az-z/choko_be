@@ -4,6 +4,7 @@ module.exports = async (req, res) => {
     const data = JSON.parse(base64decode(req.body.data))
     const payment = await db.Payments.findOne({ _id: data.order_id })
     const user = await db.Users.findOne({ _id: payment.user })
+    console.log(user);
     const currUserDate = new Date(user.active.to)
     const date = new Date()
     if ( data.description === 'month' ) {
@@ -14,7 +15,7 @@ module.exports = async (req, res) => {
       payment.status = true
       const paymentSave = await payment.save()
       const saveUser = await user.save()
-      console.log("Saved month");
+      console.log("Saved month", saveUser);
     }
     if ( data.description === 'year' ) {
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
