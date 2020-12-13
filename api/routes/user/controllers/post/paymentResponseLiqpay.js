@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     const date = new Date()
     if ( data.description === 'month' ) {
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
-      user.active.to = currUserDate <= date ? dateMonth : new Date(currUserDate.setMonth(currUserDate.getMonth() + 1))
+      user.active.to = currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth
       user.active.status = true
       user.active.trial = false
       payment.status = true
