@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     console.log(user);
     const currUserDate = new Date(user.active.to)
     const date = new Date()
-    if ( data.description === 'month' ) {
+    if ( data.description === 'month' && payment.status === false ) {
       console.log('New date: ', currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth);
       const dateMonth = new Date(date.setMonth(date.getMonth()+1))
       user.active.to = currUserDate > date ? new Date(currUserDate.setMonth(currUserDate.getMonth() + 1)) : dateMonth
@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
       const saveUser = await user.save()
       console.log("Saved month", saveUser);
     }
-    if ( data.description === 'year' ) {
+    if ( data.description === 'year' && payment.status === false ) {
       const dateYear = new Date(date.setFullYear(date.getFullYear() + 1))
       user.active.to = currUserDate <= date ? dateYear : new Date(currUserDate.setFullYear(currUserDate.getFullYear() + 1))
       user.active.trial = false
