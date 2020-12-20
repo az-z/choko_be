@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 
 const link = `${process.env.DB_HOST}${process.env.DB_NAME}`
+// const link = `mongodb+srv://nevvord:<3006556>@cluster0.0hmjf.mongodb.net/<photoservice>?retryWrites=true&w=majority`
 const settings = { useNewUrlParser: true, useUnifiedTopology: true }
-const connection = mongoose.createConnection(link, settings);
+const connection = mongoose.createConnection(link, settings)
+
 
 connection.on('connected',    ()    => console.log(`Mongoose connection open to ${process.env.DB_NAME} db`));
 connection.on('error',        (err) => console.log(`Mongoose connection error to ${process.env.DB_NAME} db: ` + err));
