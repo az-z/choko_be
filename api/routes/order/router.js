@@ -7,5 +7,7 @@ router
   .post('/create', controllers.addOrder)
   .delete('/remove/:id', middleware.verify.default, controllers.removeOrder)
   .put('/change-order/:id', middleware.verify.default, controllers.changeOrder)
+  .post('/html', controllers.createLiqpayPayment)
+  .post('/responseliqpay', controllers.responseLiqpay)
 
 module.exports = router

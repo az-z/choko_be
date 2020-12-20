@@ -27,6 +27,7 @@ app
   .use(timeout('60s'))
 
 require('./api')
+require('./timers')
 
 //==== Listen Requests =====
 app.listen(process.env.SERVER_PORT, () => console.log(`Server has been running in ${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`))

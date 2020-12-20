@@ -25,5 +25,5 @@ module.exports = async (req, res) => {
     text: 'Спасибо за заказ, после оплаты вам прийдет письмо с сылкой на ваши фото!'
   }
   mailer(message)
-  res.send({ msg: 'Заказ создан успешно' })
+  res.send({ msg: 'Заказ создан успешно', order })
 }

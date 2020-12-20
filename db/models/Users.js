@@ -19,9 +19,13 @@ module.exports = (mongoose, conn) =>
     instagram: String,
     description: String,
     phoneNumber: String,
+    payment: {
+      cashText: String
+    },
     storage: {
-      limit: { type: Number, default: 1e+10 },
-      usage: { type: Number, default: 0 }
+      limit: { type: Number, default: 1e+100 },
+      usage: { type: Number, default: 0 },
+      full: { type: Boolean, default: false }
     },
     active: new mongoose.Schema({
       status: { type: Boolean, default: false },

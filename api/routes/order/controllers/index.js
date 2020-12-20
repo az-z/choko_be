@@ -4,5 +4,7 @@ module.exports = {
   addOrder: require('./post/addOrder'),
   userOrders: require('./get/getUserOrders'),
   removeOrder: require('./delete/removeOrder'),
-  changeOrder: require('./put/changeOrder')
+  changeOrder: require('./put/changeOrder'),
+  createLiqpayPayment: require('./post/createLiqpayPayment'),
+  responseLiqpay: require('./post/responseliqpay')
 }

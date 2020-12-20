@@ -12,6 +12,7 @@ module.exports = (mongoose, conn) =>
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Images'
     }],
+    payment: String,
     description: String,
     folder: String,
     price: Number,

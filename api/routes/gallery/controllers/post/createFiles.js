@@ -17,6 +17,8 @@ module.exports = async (req, res) => {
       uploader: req.user._id
     })
     req.user.storage.usage = req.user.storage.usage + image.size
+    if ( req.user.storage.usage >= req.user.storage.limit ) req.user.storage.full = true
+    else req.user.storage.full = false
     savedImages.push(newImage._id)
     await Jimp.read(`uploads/${image.filename}`).then( async img => {
         newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
