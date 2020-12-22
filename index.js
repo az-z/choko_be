@@ -19,6 +19,11 @@ app
   .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
   .use(static('uploads'))
   .use(static('static'))
+  .options('*', cors({
+    credentials: true,
+    origin: true,
+    optionsSuccessStatus: 200
+  }))
   .use(cors({
     credentials: true,
     origin: true,
