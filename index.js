@@ -14,22 +14,11 @@ global.middleware = require('./middlewares')
 global.mailer = mailer
 
 app
-// .options('*', cors())
   .use(bodyParser.json()) // support json encoded bodies
   .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
   .use(static('uploads'))
   .use(static('static'))
-  .options('*', cors({
-    credentials: true,
-    origin: true,
-    optionsSuccessStatus: 200
-  }))
-  .use(cors({
-    credentials: true,
-    origin: true,
-    optionsSuccessStatus: 200
-  }))
-  .use(timeout('60s'))
+  .use(cors())
 
 require('./api')
 require('./timers')
