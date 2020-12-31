@@ -3,7 +3,6 @@ const Jimp = require('jimp')
 require('dotenv').config()
 module.exports = async (req, res) => {
   const images = req.files
-  console.log(images);
   if (!images) return res.status(404).send({msg: "Изображений ненайденно"})
   let savedImages = []
   await images.map( async image => {
@@ -32,11 +31,10 @@ module.exports = async (req, res) => {
             opacitySource: 1,
             opacityDest: 1
           }])
-          // .greyscale() // set greyscale
           .write(`uploads/small_${image.filename}`); // save
       }).catch(err => {
-        console.error(err);
-      });
+        console.error(err)
+      })
     await newImage.save()
   })
   try {
@@ -44,7 +42,7 @@ module.exports = async (req, res) => {
     //   return element._id
     // })
     req.user.images = req.user.images.concat(savedImages)
-    const saveUserResultat = await req.user.update()
+    const saveUserResultat = await req.user.save()
     res.send({ msg: 'Фото загружены успешно', images: savedImages })
   } catch (error) {
     console.error(error)
