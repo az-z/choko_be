@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     const week = d.getDate() - 6;
   const { take, skip, period } = req.query
   let currPeriod = null
-  if (period === 'month') currPeriod = `${year}-${month}`
+  if (period === 'month') currPeriod = `${year}-${month ? month : month + 1}`
   else if (period === 'week') currPeriod = `${year}-${month + 1}-${week}`
   else if (period === 'day') currPeriod = `${year}-${month + 1}-${day}`
   else if (period === 'year') currPeriod = `${year}`
@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   const match = {
     date: {
       $lt: new Date(),
-      $gte: new Date(currPeriod)
+      $gte: new Date(currPeriod ? currPeriod : null)
     }
   }
   console.log(match);
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
         select: '_id status summ'
       }
     ])
-    if(!users) return res.status(404).json({ msg: "Пользователи ненайдены" })
+    if (!users) return res.status(404).json({ msg: "Пользователи ненайдены" })
     res.json({
       msg: 'Пользователи найденны успешно',
       users
