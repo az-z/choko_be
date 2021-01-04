@@ -38,9 +38,6 @@ module.exports = async (req, res) => {
     await newImage.save()
   })
   try {
-    // const arrayImages = savedImages.map(element => {
-    //   return element._id
-    // })
     req.user.images = req.user.images.concat(savedImages)
     const saveUserResultat = await req.user.save()
     res.send({ msg: 'Фото загружены успешно', images: savedImages })
