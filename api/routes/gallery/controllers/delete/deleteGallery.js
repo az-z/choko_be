@@ -7,17 +7,17 @@ module.exports = async (req, res) => {
     if (gallery.images) gallery.images.forEach(async element => {
       unlink(`uploads/${element.name}`, error => console.error(error))
       unlink(`uploads/small_${element.name}`, error => console.error(error))
-      // console.log(user.images, element._id);
       user.images = user.images.filter(elem => {
-        // console.log(elem, element._id, elem != element._id, typeof(elem), typeof(element._id))
         if (String(elem) != String(element._id)) return elem
       })
-      // console.log(user.images)
-      const imageRem = await element.remove()
+      user.galleries = user.galleries.filter(element => element != req.params.id)
+      user.storage.usage = user.storage.usage - element.size
+      await element.remove()
     })
-    const removeGallery = await gallery.remove()
-    user.galleries = user.galleries.filter(element => element != req.params.id)
-    const userSave = await user.save()
+    await gallery.remove()
+    if (user.storage.usage >= user.storage.limit) user.storage.full = true
+    else user.storage.full = false
+    await user.save()
     res.send({ msg: 'Галерея удалена успшно' })
   } catch (error) {
     res.status(500).send({ msg: 'Неудалось удалить галерею' })

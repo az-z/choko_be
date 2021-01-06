@@ -1,3 +1,4 @@
+require('dotenv').config()
 module.exports = (mongoose, conn) =>
   conn.model('Users', new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId },
@@ -23,7 +24,7 @@ module.exports = (mongoose, conn) =>
       cashText: String
     },
     storage: {
-      limit: { type: Number, default: 1e+100 },
+      limit: { type: Number, default: process.env.STORAGE_LIMIT },
       usage: { type: Number, default: 0 },
       full: { type: Boolean, default: false }
     },
