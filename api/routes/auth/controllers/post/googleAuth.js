@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 module.exports = async (req, res) => {
-  const access_token = req.body.googleUser.xc.access_token
-  getUrl = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`
+  console.log(req.body.googleUser)
   try {
+    const access_token = req.body.googleUser.Bc.access_token
+    getUrl = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`
     const response = await axios.get(getUrl)
     const user = await db.Users.findOne({ googleID: response.data.id })
     if (user) {

@@ -5,7 +5,6 @@ require('dotenv').config()
 module.exports = async (req, res) => {
   const images = req.files
   let savedImages = []
-
   if (!images) return res.status(404).send({ msg: "Изображений ненайденно" })
   if (!req.user.storage.full) {
     await images.map(async image => {
@@ -27,7 +26,7 @@ module.exports = async (req, res) => {
         newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
         const watermark = await Jimp.read('static/watermark.png')
         return img
-          .resize(768, 512) // resize
+          .scale(.3) // resize
           .quality(100) // set JPEG quality
           .composite(watermark, 0, 0, [{
             mode: Jimp.BLEND_SCREEN,
@@ -39,7 +38,6 @@ module.exports = async (req, res) => {
         console.error(err)
       })
       await newImage.save()
-
     })
     try {
       req.user.images = req.user.images.concat(savedImages)
