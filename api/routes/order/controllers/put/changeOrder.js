@@ -14,14 +14,14 @@ module.exports = async (req, res) => {
     order.status = status
     const orderResultat = await order.save()
     if (!orderResultat) return res.status(500).json({ msg: 'Неудалось сохранить' })
-    if (status) {
-      const message = {
-        to: order.email,
-        subject: 'Заказ успешно оплачен',
-        text: `Ваш заказ доступен по ссылке: ${process.env.SITE}/order/${order._id}`
-      }
-      mailer(message)
-    }
+    // if (status) {
+    //   // const message = {
+    //   //   to: order.email,
+    //   //   subject: 'Заказ успешно оплачен',
+    //   //   text: `Ваш заказ доступен по ссылке: ${process.env.SITE}/order/${order._id}`
+    //   // }
+    //   // mailer(message)
+    // }
     res.json({ msg: 'Заказ изменен успешно' })
   } catch (error) {
     console.error(error)
