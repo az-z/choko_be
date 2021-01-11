@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
     console.log(userResultat)
     return res.status(500).send({ msg: 'Неудалось обновить пользователя' })
   }
-  const message = {
-    to: email,
-    subject: 'Заказ оформлен успешно',
-    text: 'Спасибо за заказ, после оплаты вам прийдет письмо с сылкой на ваши фото!'
-  }
-  mailer(message)
+  // const message = {
+  //   to: email,
+  //   subject: 'Заказ оформлен успешно',
+  //   text: 'Спасибо за заказ, после оплаты вам прийдет письмо с сылкой на ваши фото!'
+  // }
+  // mailer(message)
   res.send({ msg: 'Заказ создан успешно', order })
 }
