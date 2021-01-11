@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const  { static, Router } = require('express')
 //const mailer = require('./plugins/nodemailer')
 const mailer = require('./plugins/mailjet')
-const timeout = require('connect-timeout')
+// const timeout = require('connect-timeout')
 require('dotenv').config()
 
 global.db = db

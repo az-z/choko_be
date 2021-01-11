@@ -28,11 +28,11 @@ module.exports = async (req, res) => {
 			TemplateLanguage: true,
 			"Subject": "Заказ успешно оплачен",
 			"Variables": {
-				"name": order.name + ' ' order.lastname,
+				"name": `${order.name} ${order.lastname}`,
 				"order_url": `${process.env.SITE}/order/${order._id}`,
       				"order_price": order.summ,
       				"order_date": order.date.toString,
-      				"order_id": ${order._id}
+      				"order_id": `${order._id}`
 			}
     	}
 
