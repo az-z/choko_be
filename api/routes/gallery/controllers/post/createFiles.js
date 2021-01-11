@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
       else req.user.storage.full = false
       savedImages.push(newImage._id)
       const exifImageData = new ExifImage({ image: `uploads/${image.filename}` }, async function (error, exifData) {
+        console.log(exifData)
         if (error) return console.error('Error: ', error)
         await Jimp.read(`uploads/${image.filename}`).then(async img => {
           newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
@@ -32,6 +33,8 @@ module.exports = async (req, res) => {
             .scale(.3) // resize
             .quality(100) // set JPEG quality
             .rotate( exifData.image.Orientation == 8 ? 270 : 0 )
+            .rotate( exifData.image.Orientation == 6 ? 90 : 0 )
+            .rotate( exifData.image.Orientation == 3 ? 180 : 0 )
             .composite(watermark, 0, 0, [{
               mode: Jimp.BLEND_SCREEN,
               opacitySource: 1,

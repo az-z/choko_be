@@ -31,28 +31,33 @@ require('dotenv').config()
 
 mailjet.connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE)
 
-const mailer =  function (payload, html) {
-  const request = mailjet
-    .post("send", { 'version': 'v3.1' })
-    .request(
-      {
-        "Globals": {
-          "From": {
-            "Email": "photo_order@keytophoto.com",
-            "Name": "Photo Order"
-          }
-        },
-        "Messages": [payload]
-      }
-    )
-  request
-    .then((result) => {
-      console.log(result.body)
-    })
-    // Should not this break the execution ?
-    .catch((err) => {
-      console.log(err.statusCode)
-    })
+const mailer = async function (payload, html) {
+  try {
+    const request = await mailjet
+      .post("send", { 'version': 'v3.1' })
+      .request(
+        {
+          "Globals": {
+            "From": {
+              "Email": "photo_order@keytophoto.com",
+              "Name": "Photo Order"
+            }
+          },
+          "Messages": [payload]
+        }
+      )
+    request
+      .then((result) => {
+        console.log(result.body)
+      })
+      // Should not this break the execution ?
+      .catch((err) => {
+        console.log(err.statusCode)
+      })
+
+  } catch (error) {
+    console.error('MAIL ERROR: ', erorr)
+  }
 }
 
 module.exports = mailer
