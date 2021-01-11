@@ -56,7 +56,7 @@ const mailer = async function (payload, html) {
       })
 
   } catch (error) {
-    console.error('MAIL ERROR: ', erorr)
+    console.error('MAIL ERROR: ', error)
   }
 }
 
