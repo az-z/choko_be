@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       else req.user.storage.full = false
       savedImages.push(newImage._id)
       const exifImageData = new ExifImage({ image: `uploads/${image.filename}` }, async function (error, exifData) {
-        console.log(exifData)
+        // console.log(exifData)
         if (error) return console.error('Error: ', error)
         await Jimp.read(`uploads/${image.filename}`).then(async img => {
           newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
