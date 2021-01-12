@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
   // if (!name) return res.status(400).send({ msg: 'Имя обязательно' })
   if (!email) return res.status(400).send({ msg: 'E-mail обязателен' })
   const currUser = await db.Users.findOne({ _id: user })
+  const currGallery = await db.Galleries.find({ _id: gallery })
   const order = new db.Orders({
     _id: new Types.ObjectId(),
     user, images, gallery, name, lastname, phone, email, summ
@@ -25,24 +26,32 @@ module.exports = async (req, res) => {
   //   text: 'Спасибо за заказ, после оплаты вам прийдет письмо с сылкой на ваши фото!'
   // }
   // mailer(message)
-  
-  const payload = {
-    			"To": [
-        			{
-         			"Email": `${order.email}`,
-         			"Name": `${order.name} ${order.lastname}`
-        			}
-      			],
-			TemplateID: 2197408, //new  order
-			"Subject": "Заказ оформлен успешно",
-			"Variables": {
-				"name": `${order.name} ${order.lastname}`,
-				"order_price": `${order.summ}`,
-      			"order_date": `${order.date}`,
-      			"order_id": `${order._id}`
-			}
-    	}
 
-    mailer(payload) 
+  // currUser.payment.cashText - Текст заполненый пользователем для оплаты наличными
+  // currGallery - есть вся инфа с модели /db/models/Galleries.js
+  // currGallery.payment - имеет типы cash(наличными) и liqpay(оплата картой)
+  // if (currGallery.payment === 'cash') return;
+  // const typeValue = currGallery.payment === 'cash' ? currUser.payment.cashText : ''
+
+
+  const payload = {
+    "To": [
+      {
+        "Email": `${order.email}`,
+        "Name": `${order.name} ${order.lastname}`
+      }
+    ],
+    TemplateID: 2197408, //new  order
+    Subject: "Заказ оформлен успешно",
+    Variables: {
+      name: `${order.name} ${order.lastname}`,
+      order_price: order.summ,
+      order_date: new Date(order.date),
+      order_id: order._id,
+      order_cash_text: currGallery.payment === 'cash' ? currUser.payment.cashText : ''
+    }
+  }
+
+  mailer(payload)
   res.send({ msg: 'Заказ создан успешно', order })
 }
