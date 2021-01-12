@@ -22,14 +22,13 @@
     }
   ]
 })
-
 */
 
 
-const mailjet = require('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE)
 require('dotenv').config()
 
 const mailer = async function (payload, html) {
+  const mailjet = require('node-mailjet').connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE)
   try {
     const request = await mailjet
       .post("send", { 'version': 'v3.1' })
