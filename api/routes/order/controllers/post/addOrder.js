@@ -25,5 +25,24 @@ module.exports = async (req, res) => {
   //   text: 'Спасибо за заказ, после оплаты вам прийдет письмо с сылкой на ваши фото!'
   // }
   // mailer(message)
+  
+  const payload = {
+    			"To": [
+        			{
+         			"Email": `${order.email}`,
+         			"Name": `${order.name} ${order.lastname}`
+        			}
+      			],
+			TemplateID: 2197408, //new  order
+			"Subject": "Заказ оформлен успешно",
+			"Variables": {
+				"name": `${order.name} ${order.lastname}`,
+				"order_price": `${order.summ}`,
+      			"order_date": `${order.date}`,
+      			"order_id": `${order._id}`
+			}
+    	}
+
+    mailer(payload) 
   res.send({ msg: 'Заказ создан успешно', order })
 }
