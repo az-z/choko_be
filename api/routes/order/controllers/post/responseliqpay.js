@@ -1,4 +1,3 @@
-//Why is this required?
 require('dotenv').config()
 
 const { base64decode } = require('nodejs-base64');
@@ -21,22 +20,21 @@ module.exports = async (req, res) => {
     			"To": [
         			{
          			"Email": `${order.email}`,
-         			"Name": order.name + ' ' + order.lastname
+         			"Name": `${order.name} ${order.lastname}`
         			}
       			],
-			TemplateID: 2197408, //completed order
-			TemplateLanguage: true,
+			TemplateID: 2204070, //completed order
 			"Subject": "Заказ успешно оплачен",
 			"Variables": {
 				"name": `${order.name} ${order.lastname}`,
 				"order_url": `${process.env.SITE}/order/${order._id}`,
-      				"order_price": order.summ,
-      				"order_date": order.date.toString,
+      				"order_price": `${order.summ}`,
+      				"order_date": `${order.date}`,
       				"order_id": `${order._id}`
 			}
     	}
 
-    mailer(payload)
+    mailer(payload) 
     res.send({ msg: 'Успешно' })
   } catch (error) {
     	res.status(500).send({ msg: 'Ошибка сервера' })

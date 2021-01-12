@@ -12,8 +12,8 @@ module.exports = async (req, res) => {
     order.lastname = lastname
     order.phone = phone
     order.status = status
-    const orderResultat = await order.save()
-    if (!orderResultat) return res.status(500).json({ msg: 'Неудалось сохранить' })
+    const orderResult = await order.save()
+    if (!orderResult) return res.status(500).json({ msg: 'Неудалось сохранить' })
     // if (status) {
     //   // const message = {
     //   //   to: order.email,
@@ -22,6 +22,26 @@ module.exports = async (req, res) => {
     //   // }
     //   // mailer(message)
     // }
+    
+    const payload = {
+    			"To": [
+        			{
+         			"Email": `${order.email}`,
+         			"Name": `${order.name} ${order.lastname}`
+        			}
+      			],
+			TemplateID: 2204734, //completed order
+			"Subject": "Заказ успешно изменен",
+			"Variables": {
+				"name": `${order.name} ${order.lastname}`,
+				"order_url": `${process.env.SITE}/order/${order._id}`,
+      				"order_price": `${order.summ}`,
+      				"order_date": `${order.date}`,
+      				"order_id": `${order._id}`
+			}
+    	}
+	mailer(payload);
+	
     res.json({ msg: 'Заказ изменен успешно' })
   } catch (error) {
     console.error(error)
