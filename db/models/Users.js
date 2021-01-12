@@ -21,7 +21,7 @@ module.exports = (mongoose, conn) =>
     description: String,
     phoneNumber: String,
     payment: {
-      cashText: String
+      cashText: { type: String, default: '' }
     },
     storage: {
       limit: { type: Number, default: process.env.STORAGE_LIMIT },
