@@ -7,16 +7,8 @@ module.exports = async (req, res) => {
     if (!data.order_id) return res.status(403).json({ msg: "Order ID is missing" })
     const order = await db.Orders.findOne({ _id: data.order_id }).populate(['user'])
     order.status = true
-		await order.save()
-		// order.user - User info
-/*
-    const message = {
-      to: order.email,
-      subject: 'Заказ успешно оплачен',
-      text: `Ваш заказ доступен по ссылке: ${process.env.SITE}/order/${order._id}`
-    }
-    mailer(message)
-*/
+	await order.save()
+	// order.user - User info
 	const payload = {
     			"To": [
         			{
