@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   // if (!name) return res.status(400).send({ msg: 'Имя обязательно' })
   if (!email) return res.status(400).send({ msg: 'E-mail обязателен' })
   const currUser = await db.Users.findOne({ _id: user })
-  const currGallery = await db.Galleries.find({ _id: gallery })
+  const currGallery = await db.Galleries.findOne({ _id: gallery })
   const order = new db.Orders({
     _id: new Types.ObjectId(),
     user, images, gallery, name, lastname, phone, email, summ

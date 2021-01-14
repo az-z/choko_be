@@ -4,7 +4,9 @@ const Jimp        =   require('jimp')
 const ExifImage   =   require('exif').ExifImage 
 
 module.exports = async (req, res) => {
+  if (req.fileValidationError) res.status(201).send({ error: req.fileValidationError })
   const images = req.files
+  const { gallery } = req.body
   let savedImages = []
   if (!images) return res.status(404).send({ msg: "Изображений ненайденно" })
   if (!req.user.storage.full) {
@@ -14,33 +16,34 @@ module.exports = async (req, res) => {
         name: image.filename,
         originalName: image.originalname,
         path: {
-          original: `${process.env.FULL_PATH}/${image.filename}`
+          original: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/${image.filename}`
         },
         size: image.size,
-        uploader: req.user._id
+        uploader: req.user._id,
+        gallery
       })
       req.user.storage.usage = req.user.storage.usage + image.size
       if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true
       else req.user.storage.full = false
       savedImages.push(newImage._id)
-      const exifImageData = new ExifImage({ image: `uploads/${image.filename}` }, async function (error, exifData) {
+      const exifImageData = new ExifImage({ image: `uploads/${req.user._id}/${gallery}/${image.filename}` }, async function (error, exifData) {
         // console.log(exifData)
         if (error) return console.error('Error: ', error)
-        await Jimp.read(`uploads/${image.filename}`).then(async img => {
-          newImage.path.small = `${process.env.FULL_PATH}/small_${image.filename}`
+        await Jimp.read(`uploads/${req.user._id}/${gallery}/${image.filename}`).then(async img => {
+          newImage.path.small = `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${image.filename}`
           const watermark = await Jimp.read('static/watermark.png')
           return img
             .scale(.3) // resize
             .quality(100) // set JPEG quality
-            .rotate( exifData.image.Orientation == 8 ? 270 : 0 )
-            .rotate( exifData.image.Orientation == 6 ? 90 : 0 )
-            .rotate( exifData.image.Orientation == 3 ? 180 : 0 )
+            .rotate( exifData && exifData.image.Orientation == 8 ? 270 : 0 )
+            .rotate( exifData && exifData.image.Orientation == 6 ? 90 : 0 )
+            .rotate( exifData && exifData.image.Orientation == 3 ? 180 : 0 )
             .composite(watermark, 0, 0, [{
               mode: Jimp.BLEND_SCREEN,
               opacitySource: 1,
               opacityDest: 1
             }])
-            .write(`uploads/small_${image.filename}`); // save
+            .write(`uploads/${req.user._id}/${gallery}/small_${image.filename}`); // save
         }).catch(err => {
           console.error(err)
         })
