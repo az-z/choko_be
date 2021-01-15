@@ -6,8 +6,13 @@ module.exports = async (req, res) => {
   if(!currGallery && gallery !== 'create') return res.status(404).send({ msg: 'Галерея не найдена' })
   const file = await db.Images.findOne({ _id: id, uploader: req.user._id })
   if(!file) return res.status(404).send({ msg: 'Файл не найден' })
-  unlink(`uploads/${file.name}`, error => console.error(error))
-  unlink(`uploads/small_${file.name}`, error => console.error(error))
+  unlink(`uploads/${req.user._id}/${gallery}/${file.name}`, error => console.error(error))
+  unlink(`uploads/${req.user._id}/${gallery}/small_${file.name}`, error => console.error(error))
+  req.user.images = await req.user.images.filter(element => element != id)
+  req.user.storage.usage -= file.size
+  if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true
+  else req.user.storage.full = false
+  await req.user.save()
   if (currGallery) currGallery.images = currGallery.images.filter(image => image !== id)
   if (currGallery) return currGallery.save().then(result => {
     file.remove().then(result => {

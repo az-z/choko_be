@@ -7,6 +7,9 @@ const  { static, Router } = require('express')
 const mailer = require('./plugins/mailjet')
 // const timeout = require('connect-timeout')
 require('dotenv').config()
+const fs = require('fs')
+
+const uploadsDir = './uploads'
 
 global.db = db
 global.router = Router()
@@ -14,10 +17,12 @@ global.express = app
 global.middleware = require('./middlewares')
 global.mailer = mailer
 
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir)
+
 app
   .use(bodyParser.json()) // support json encoded bodies
   .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
-  .use(static('uploads'))
+  .use(static(uploadsDir))
   .use(static('static'))
   .use(cors())
 

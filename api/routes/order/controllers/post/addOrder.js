@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
 
   const currGallery = await db.Galleries.findOne({ _id: gallery })
   const currUser = await db.Users.findOne({ _id: user })
-
   const order = new db.Orders({
     _id: new Types.ObjectId(),
     user, images, gallery, name, lastname, phone, email, summ
