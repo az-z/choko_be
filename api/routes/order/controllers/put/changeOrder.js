@@ -22,7 +22,46 @@ module.exports = async (req, res) => {
     //   // }
     //   // mailer(message)
     // }
-    
+   
+
+
+
+/* this is not working . throws :
+TypeError: Cannot read property 'aggregate' of undefined
+0|back  |     at module.exports (/home/az/KeytoPhoto/back/api/routes/order/controllers/put/changeOrder.js:27:35)
+0|back  |     at processTicksAndRejections (internal/process/task_queues.js:93:5)
+
+
+
+  const order_payment =	db.orders.aggregate( [ 					
+				{ $match: { _id : id }}, 			
+   				{ $lookup: {				
+          					from: 'galleries',
+          					localField: 'gallery',
+          					foreignField: '_id',
+          					as: 'gal'
+        					}},
+    				{ $project: {'gal.payment' : 1 }}
+	],function(err, result){ 
+		console.error(err)
+	})
+
+
+  console.log(" order_payment - ", order_payment)
+  console.log(" order_payment.gal - ", order_payment.gal)
+  console.log(" order_payment.gal.payment - ", order_payment.gal.payment)
+
+*/ 
+
+
+//	If payment === 'cash' && order.status { add URL to the template }
+	const url = ``
+	const order_text = ``
+	if (order_payment.gal.payment == 'cash' && status ) {
+		url = `${process.env.SITE}/order/${order._id}`
+		order_text = ` Your order is paid and available ` 	
+	}
+
     const payload = {
     			"To": [
         			{
@@ -34,7 +73,8 @@ module.exports = async (req, res) => {
 			"Subject": "Заказ успешно изменен",
 			"Variables": {
 				"name": `${order.name} ${order.lastname}`,
-				"order_url": `${process.env.SITE}/order/${order._id}`,
+				order_stmnt : `${order_text}`,
+				"order_url" : `${url}`,
       				"order_price": `${order.summ}`,
       				"order_date": `${order.date}`,
       				"order_id": `${order._id}`
