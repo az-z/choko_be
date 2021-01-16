@@ -5,12 +5,19 @@ const fileFilter = async (req, file, cb) => {
   const regex = /\.(jpg|JPG|jpeg|JPEG)$/
   const { gallery } = req.body
   console.log(req.body);
-  if (!file.originalname.match(regex)) return cb(null, false)
+  if (!file.originalname.match(regex)) {
+    req.fileValidationError = 'goes wrong on the mimetype'
+    return cb(null, false)
+  }
+  if (req.user.storage.full) {
+    req.sorageLimitError = 'goes wrong on the mimetype'
+    return cb(null, fale)
+  }
   try {
     const image = await db.Images.findOne({ originalName: file.originalname, uploader: req.user._id, gallery })
     console.log(image);
     if (image) {
-      req.fileValidationError = 'goes wrong on the mimetype'
+      req.fileExistError = 'File exist'
       return cb(null, false)
     }
     cb(null, true)

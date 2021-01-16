@@ -15,7 +15,8 @@ module.exports = (mongoose, connection) =>
     },
     path: {
       original: String,
-      small: String
+      small: String,
+      xs: String
     },
     date: {
       type: Date,

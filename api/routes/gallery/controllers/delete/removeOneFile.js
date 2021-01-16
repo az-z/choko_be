@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
   if(!file) return res.status(404).send({ msg: 'Файл не найден' })
   unlink(`uploads/${req.user._id}/${gallery}/${file.name}`, error => console.error(error))
   unlink(`uploads/${req.user._id}/${gallery}/small_${file.name}`, error => console.error(error))
+  unlink(`uploads/${req.user._id}/${gallery}/xs_${file.name}`, error => console.error(error))
   req.user.images = await req.user.images.filter(element => element != id)
   req.user.storage.usage -= file.size
   if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true

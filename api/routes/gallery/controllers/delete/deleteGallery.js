@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
       await gallery.images.forEach(async element => {
         unlink(`uploads/${req.user._id}/${req.params.id}/${element.name}`, error => console.error(error))
         unlink(`uploads/${req.user._id}/${req.params.id}/small_${element.name}`, error => console.error(error))
+        unlink(`uploads/${req.user._id}/${req.params.id}/xs_${element.name}`, error => console.error(error))
         req.user.images = await req.user.images.filter(elem => String(elem) != String(element._id))
         req.user.galleries = await req.user.galleries.filter(element => element != req.params.id)
         req.user.storage.usage = req.user.storage.usage - element.size
