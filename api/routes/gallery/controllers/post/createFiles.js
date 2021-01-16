@@ -79,7 +79,7 @@ module.exports = async (req, res) => {
     console.log('saveImage', true);
     const saveUserResultat = await req.user.save()
     console.log('saveUserResultat', true);
-    res.send({ msg: 'Фото загружены успешно', images: savedImages })
+    res.status(200).send({ msg: 'Фото загружены успешно', images: savedImages })
   } catch (error) {
     console.error(error)
     res.status(500).send({ msg: "Ошибка сервера", error })
