@@ -161,7 +161,7 @@ module.exports = async (req, res) => {
     const resultatResizeWatermark = await resize(payload)
     console.log('resultatResizeWatermark', true);
     setTimeout(() => {
-      const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
+      const resultatResizeXS = resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
       console.log('resultatResizeXS', true);
     }, 0)
     const saveImage = await newImage.save()
