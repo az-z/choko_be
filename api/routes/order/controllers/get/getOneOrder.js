@@ -3,7 +3,7 @@ module.exports = async (req, res) => {
   if (!id) res.status(400).json({ msg: 'ID обязательно' })
   try {
     const order = await db.Orders.findOne({ _id: id })
-    .populate([{ path: 'images', select: 'path.original' }]).select(['images', '_id', 'status'])
+    .populate([{ path: 'images', select: 'path.original originalName' }]).select(['images', '_id', 'status'])
     if (!order) return res.status(404).send({ msg: 'Заказ с таким id не найден' })
     if (!order.status) return res.status(402).json({ msg: 'Заказ неолачен или нходится в обработке' })
     res.send({ msg: 'Заказ найден', order })

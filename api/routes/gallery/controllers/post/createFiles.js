@@ -30,8 +30,8 @@ const resize = async function (payload) {
 
 
 module.exports = async (req, res) => {
-  if (req.fileValidationError) res.status(201).send({ error: req.fileValidationError })
-  if (req.fileExistError) res.status(201).send({ error: req.fileExistError })
+  if (req.fileValidationError) return res.status(201).send({ error: req.fileValidationError })
+  if (req.fileExistError) return res.status(201).send({ error: req.fileExistError })
   const images = req.files
   const { gallery } = req.body
   if (!images) return res.status(404).send({ msg: "Изображений ненайденно" })
@@ -79,7 +79,7 @@ module.exports = async (req, res) => {
     console.log('saveImage', true);
     const saveUserResultat = await req.user.save()
     console.log('saveUserResultat', true);
-    res.status(200).send({ msg: 'Фото загружены успешно', images: savedImages })
+    res.status(200).json({ msg: 'Фото загружены успешно', images: savedImages })
   } catch (error) {
     console.error(error)
     res.status(500).send({ msg: "Ошибка сервера", error })

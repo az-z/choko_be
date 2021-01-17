@@ -11,7 +11,7 @@ const fileFilter = async (req, file, cb) => {
   }
   if (req.user.storage.full) {
     req.sorageLimitError = 'goes wrong on the mimetype'
-    return cb(null, fale)
+    return cb(null, false)
   }
   try {
     const image = await db.Images.findOne({ originalName: file.originalname, uploader: req.user._id, gallery })
