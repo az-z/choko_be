@@ -1,7 +1,8 @@
 require('dotenv').config()
 const { Types }   =   require('mongoose')
 const Jimp        =   require('jimp')
-const exif        =   require('exif-async')
+// const exif        =   require('exif-reader')
+var ExifImage     =   require('exif').ExifImage
 
 const resize = async function (payload) {
   const { path, watermark, exif, scale, type, savePath, filename, quality } = payload
@@ -46,55 +47,52 @@ module.exports = async (req, res) => {
   if (req.sorageLimitError) return res.status(500).send({ msg: "Недостаточно места на диске" })
   try {
     let savedImages = []
+    const pathToOriginalFile = `uploads/${req.user._id}/${gallery}/${images[0].filename}`
+    const savePath = `uploads/${req.user._id}/${gallery}`
     const newImage = new db.Images({
       _id: new Types.ObjectId(),
       name: images[0].filename,
       originalName: images[0].originalname,
       path: {
         original: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/${images[0].filename}`,
-        // small: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${images[0].filename}`,
-        // xs: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/xs_${images[0].filename}`
+        small: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${images[0].filename}`,
+        xs: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/xs_${images[0].filename}`
       },
       size: images[0].size,
       uploader: req.user._id,
       gallery
     })
-    await newImage.save()
-    const pathToOriginalFile = `uploads/${req.user._id}/${gallery}/${images[0].filename}`
-    const savePath = `uploads/${req.user._id}/${gallery}`
     req.user.storage.usage += images[0].size
     if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true
     else req.user.storage.full = false
     savedImages.push(newImage._id)
-    console.log(savedImages)
-    const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
-    console.log('exifData: ', !!exif)
-    return res.send({ msg: "что то там", images: [newImage._id] })
-    // const watermark = await Jimp.read('static/watermark.png')
-    // console.log('watermark read done', true);
-    // const payload = {
-    //   path: pathToOriginalFile,
-    //   watermark: null,
-    //   exif: null,
-    //   // exif: exifData,
-    //   scale: .3,
-    //   type: 'small',
-    //   savePath,
-    //   quality: 80,
-    //   filename: images[0].filename
-    // }
-    // const resultatResizeWatermark = await resize(payload)
-    // console.log('resultatResizeWatermark', true);
-    // const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
-    // console.log('resultatResizeXS', true);
-    // const saveImage = await newImage.save()
-    // console.log('saveImage', true, saveImage);
-    // req.user.images = req.user.images.concat(savedImages)
-    // console.log('saveImage', true);
-    // const saveUserResultat = await req.user.save()
-    // console.log('saveUserResultat', true);
-    // res.status(200).json({ msg: 'Фото загружены успешно', images: savedImages })
-    // console.log('after response log!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    // const exifData = await exif(pathToOriginalFile)
+    // const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
+    let exifData = null
+    new ExifImage({ image: pathToOriginalFile }, function (error, data) {
+      if (error)
+        console.log('Error: ' + error.message)
+      else
+        exifData = data
+    })
+    const watermark = await Jimp.read('static/watermark.png')
+    console.log('watermark read done', true);
+    const payload = {
+      path: pathToOriginalFile,
+      watermark,
+      exif: exifData,
+      scale: .3,
+      type: 'small',
+      savePath,
+      quality: 80,
+      filename: images[0].filename
+    }
+    const resultatResizeWatermark = await resize(payload)
+    const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
+    const saveImage = await newImage.save()
+    req.user.images = req.user.images.concat(savedImages)
+    const saveUserResultat = await req.user.save()
+    return res.status(200).send({ msg: 'Фото загружены успешно', images: savedImages })
   } catch (error) {
     console.error(error)
     res.status(500).send({ msg: "Ошибка сервера", error })
