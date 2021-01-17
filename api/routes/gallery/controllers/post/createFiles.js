@@ -94,8 +94,8 @@ const resize = async payload => {
   const { path, watermark, exif, scale, type, savePath, filename, quality } = payload
   try {
     const image = await Jimp.read(path)
-    image.scale(scale) // Resize
     image.quality(quality) // Set JPEG quality
+    image.scale(scale) // Resize
     // Rotate Image if have exif
     if(exif && exif.image && exif.image.Orientation) {
       image.rotate(exif.image.Orientation == 8 ? 270 : 0 )
@@ -109,6 +109,8 @@ const resize = async payload => {
       opacityDest: 1
     }])
     image.write(`${savePath}/${type}_${filename}`)
+    image.scale(.5)
+    image.write(`${savePath}/xs_${filename}`)
     return image
   } catch (error) {
     console.error(error)
@@ -158,8 +160,8 @@ module.exports = async (req, res) => {
     }
     const resultatResizeWatermark = await resize(payload)
     console.log('resultatResizeWatermark', true);
-    const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
-    console.log('resultatResizeXS', true);
+    // const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
+    // console.log('resultatResizeXS', true);
     const saveImage = await newImage.save()
     console.log('saveImage', true);
     req.user.images = req.user.images.concat(savedImages)
