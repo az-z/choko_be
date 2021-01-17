@@ -78,18 +78,18 @@ module.exports = async (req, res) => {
       quality: 80,
       filename: images[0].filename
     }
-    const resultatResizeWatermark = await resize(payload)
-    console.log('resultatResizeWatermark', true);
-    const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
-    console.log('resultatResizeXS', true);
-    const saveImage = await newImage.save()
-    console.log('saveImage', true, saveImage);
-    req.user.images = req.user.images.concat(savedImages)
-    console.log('saveImage', true);
-    const saveUserResultat = await req.user.save()
-    console.log('saveUserResultat', true);
-    res.status(200).json({ msg: 'Фото загружены успешно', images: savedImages })
-    console.log('after response log!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    // const resultatResizeWatermark = await resize(payload)
+    // console.log('resultatResizeWatermark', true);
+    // const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
+    // console.log('resultatResizeXS', true);
+    // const saveImage = await newImage.save()
+    // console.log('saveImage', true, saveImage);
+    // req.user.images = req.user.images.concat(savedImages)
+    // console.log('saveImage', true);
+    // const saveUserResultat = await req.user.save()
+    // console.log('saveUserResultat', true);
+    // res.status(200).json({ msg: 'Фото загружены успешно', images: savedImages })
+    // console.log('after response log!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   } catch (error) {
     console.error(error)
     res.status(500).send({ msg: "Ошибка сервера", error })
