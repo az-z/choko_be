@@ -2,6 +2,7 @@ const fs = require('fs')
 const multer = require('multer')
 
 const fileFilter = async (req, file, cb) => {
+  debugger
   const regex = /\.(jpg|JPG|jpeg|JPEG)$/
   const { gallery } = req.body
   console.log(req.body);

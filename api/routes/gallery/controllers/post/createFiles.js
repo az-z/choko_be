@@ -7,21 +7,29 @@ const resize = async function (payload) {
   const { path, watermark, exif, scale, type, savePath, filename, quality } = payload
   try {
     const image = await Jimp.read(path)
-    image.scale(scale) // Resize
-    image.quality(quality) // Set JPEG quality
+    console.log('Resize function.image read');
+    await image.scale(scale) // Resize
+    console.log('Resize function.image scale');
+    await image.quality(quality) // Set JPEG quality
+    console.log('Resize function.image quality');
     // Rotate Image if have exif
     if(exif && exif.image && exif.image.Orientation) {
-      image.rotate(exif.image.Orientation == 8 ? 270 : 0 )
-      image.rotate(exif.image.Orientation == 6 ? 90 : 0 )
-      image.rotate(exif.image.Orientation == 3 ? 180 : 0 )
+      await image.rotate(exif.image.Orientation == 8 ? 270 : 0 )
+      await image.rotate(exif.image.Orientation == 6 ? 90 : 0 )
+      await image.rotate(exif.image.Orientation == 3 ? 180 : 0 )
+      console.log('Resize function.image rotate');
     }
     // Add watermark
-    if (watermark) image.composite(watermark, 0, 0, [{
-      mode: Jimp.BLEND_SCREEN,
-      opacitySource: 1,
-      opacityDest: 1
-    }])
-    image.write(`${savePath}/${type}_${filename}`)
+    if (watermark) {
+      await image.composite(watermark, 0, 0, [{
+        mode: Jimp.BLEND_SCREEN,
+        opacitySource: 1,
+        opacityDest: 1
+      }])
+      console.log('Resize function.image rotate');
+    }
+    await image.write(`${savePath}/${type}_${filename}`)
+    console.log('Resize function.image write');
     return image
   } catch (error) {
     console.error(error)
@@ -59,6 +67,7 @@ module.exports = async (req, res) => {
     savedImages.push(newImage._id)
     const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
     const watermark = await Jimp.read('static/watermark.png')
+    console.log('watermark read done', true);
     const payload = {
       path: pathToOriginalFile,
       watermark,
@@ -74,12 +83,13 @@ module.exports = async (req, res) => {
     const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
     console.log('resultatResizeXS', true);
     const saveImage = await newImage.save()
-    console.log('saveImage', true);
+    console.log('saveImage', true, saveImage);
     req.user.images = req.user.images.concat(savedImages)
     console.log('saveImage', true);
     const saveUserResultat = await req.user.save()
     console.log('saveUserResultat', true);
     res.status(200).json({ msg: 'Фото загружены успешно', images: savedImages })
+    console.log('after response log!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   } catch (error) {
     console.error(error)
     res.status(500).send({ msg: "Ошибка сервера", error })
