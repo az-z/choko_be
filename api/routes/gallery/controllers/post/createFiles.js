@@ -109,8 +109,8 @@ const resize = async payload => {
       opacityDest: 1
     }])
     image.write(`${savePath}/${type}_${filename}`)
-    image.scale(.5)
-    image.write(`${savePath}/xs_${filename}`)
+    // image.scale(.5)
+    // image.write(`${savePath}/xs_${filename}`)
     return image
   } catch (error) {
     console.error(error)
