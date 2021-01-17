@@ -67,8 +67,9 @@ module.exports = async (req, res) => {
     else req.user.storage.full = false
     savedImages.push(newImage._id)
     console.log(savedImages)
+    const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
+    console.log('exifData: ', !!exif)
     return res.send({ msg: "что то там", images: [newImage._id] })
-    // const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
     // const watermark = await Jimp.read('static/watermark.png')
     // console.log('watermark read done', true);
     // const payload = {
