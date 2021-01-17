@@ -90,7 +90,7 @@ const Jimp = require('jimp')
 
 const exif        =   require('exif-async')
 
-const resize = async function (payload) {
+const resize = async payload => {
   const { path, watermark, exif, scale, type, savePath, filename, quality } = payload
   try {
     const image = await Jimp.read(path)
@@ -158,8 +158,8 @@ module.exports = async (req, res) => {
     }
     const resultatResizeWatermark = await resize(payload)
     console.log('resultatResizeWatermark', true);
-    // const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
-    // console.log('resultatResizeXS', true);
+    const resultatResizeXS = await resize({ ...payload, type: 'xs', scale: .1, watermark: null, qualit: 50 })
+    console.log('resultatResizeXS', true);
     const saveImage = await newImage.save()
     console.log('saveImage', true);
     req.user.images = req.user.images.concat(savedImages)
