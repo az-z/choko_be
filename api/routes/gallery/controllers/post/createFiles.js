@@ -44,42 +44,30 @@ module.exports = async (req, res) => {
   const { gallery } = req.body
   if (!images) return res.status(404).send({ msg: "Изображений ненайденно" })
   if (req.sorageLimitError) return res.status(500).send({ msg: "Недостаточно места на диске" })
-  const newImage = new db.Images({
-    _id: new Types.ObjectId(),
-    name: images[0].filename,
-    originalName: images[0].originalname,
-    path: {
-      original: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/${images[0].filename}`,
-      // small: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${images[0].filename}`,
-      // xs: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/xs_${images[0].filename}`
-    },
-    size: images[0].size,
-    uploader: req.user._id,
-    gallery
-  })
-  await newImage.save()
-  return res.send({ msg: "что то там", images: [newImage._id] })
   try {
-    // let savedImages = []
-    // const pathToOriginalFile = `uploads/${req.user._id}/${gallery}/${images[0].filename}`
-    // const savePath = `uploads/${req.user._id}/${gallery}`
-    // const newImage = new db.Images({
-    //   _id: new Types.ObjectId(),
-    //   name: images[0].filename,
-    //   originalName: images[0].originalname,
-    //   path: {
-    //     original: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/${images[0].filename}`,
-    //     small: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${images[0].filename}`,
-    //     xs: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/xs_${images[0].filename}`
-    //   },
-    //   size: images[0].size,
-    //   uploader: req.user._id,
-    //   gallery
-    // })
-    // req.user.storage.usage += images[0].size
-    // if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true
-    // else req.user.storage.full = false
-    // savedImages.push(newImage._id)
+    let savedImages = []
+    const newImage = new db.Images({
+      _id: new Types.ObjectId(),
+      name: images[0].filename,
+      originalName: images[0].originalname,
+      path: {
+        original: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/${images[0].filename}`,
+        // small: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/small_${images[0].filename}`,
+        // xs: `${process.env.FULL_PATH}/${req.user._id}/${gallery}/xs_${images[0].filename}`
+      },
+      size: images[0].size,
+      uploader: req.user._id,
+      gallery
+    })
+    await newImage.save()
+    const pathToOriginalFile = `uploads/${req.user._id}/${gallery}/${images[0].filename}`
+    const savePath = `uploads/${req.user._id}/${gallery}`
+    req.user.storage.usage += images[0].size
+    if (req.user.storage.usage >= req.user.storage.limit) req.user.storage.full = true
+    else req.user.storage.full = false
+    savedImages.push(newImage._id)
+    console.log(savedImages)
+    return res.send({ msg: "что то там", images: [newImage._id] })
     // const exifData = await exif(pathToOriginalFile).catch(error => console.error(error))
     // const watermark = await Jimp.read('static/watermark.png')
     // console.log('watermark read done', true);
